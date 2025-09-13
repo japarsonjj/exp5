@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan EMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            border: 2px solid blue;
+            padding: 1em;
+            width: 300px;
+            margin: auto;
+        }
+
+        .calculator h2 {
+            text-align: center;
+            color: blue;
+        }
+
+        .result {
+            background-color: blue;
+            color: white;
+            padding: 0.5em;
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Loan EMI Calculator</h2>
+        Loan Amount Rs.: <input id="loanAmount" value="500000"><br><br>
+        Annual Interest Rate (%): <input id="interestRate" value="15"><br><br>
+        Tenure (Years): <input id="tenure" value="5"><br><br>
+        <button onclick="calculateEMI()">Calculate</button>
+        <div class="result">
+            <p>Loan Amount: ₹<span id="displayLoanAmount">0</span></p>
+            <p>Total Interest: ₹<span id="displayTotalInterest">0</span></p>
+            <p>EMI: ₹<span id="displayEMI">0</span></p>
+            <p>Total Repayment: ₹<span id="displayTotalRepayment">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateEMI() {
+            const P = parseFloat(document.getElementById('loanAmount').value);
+            const annualInterestRate = parseFloat(document.getElementById('interestRate').value);
+            const R = annualInterestRate / 12 / 100;
+            const years = parseFloat(document.getElementById('tenure').value);
+            const N = years * 12;
+
+            const EMI = (P * R * Math.pow((1 + R), N)) / (Math.pow((1 + R), N) - 1);
+            const totalInterest = EMI * N - P;
+            const totalRepayment = EMI * N;
+
+            document.getElementById('displayLoanAmount').innerText = P.toLocaleString();
+            document.getElementById('displayTotalInterest').innerText = totalInterest.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('displayEMI').innerText = EMI.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('displayTotalRepayment').innerText = totalRepayment.toLocaleString(undefined, {maximumFractionDigits: 0});
+        }
+    </script>
+</body>
+</html>
